@@ -29,7 +29,7 @@ public_network=$(echo "${netList}" | grep External | grep ' public_1 ' | awk '{p
 nnn=`echo "${public_network}" | wc -l`
 [ $nnn -eq 1 ]
 
-cinderKeyring=`cat /etc/ceph/ceph.client.cinder.keyring`
+cinderKeyring=`cat /var/lib/stackube/ceph/ceph_mon_config/ceph.client.cinder.keyring`
 keyring=`echo "${cinderKeyring}" | grep 'key = ' | awk -F\ \=\  '{print $2}'`
 [ "${keyring}" ]
 

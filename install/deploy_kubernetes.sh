@@ -108,19 +108,18 @@ kubectl get csr --all-namespaces
 
 ########## control (k8s master) & compute nodes ###########
 
-# install ovs for cni
 allIpList=`echo "
 ${CONTROL_NODE_PRIVATE_IP}
 ${COMPUTE_NODES_PRIVATE_IP}" | sed -e 's/,/\n/g' | sort | uniq `
+
+# install ovs for cni
 for IP in ${allIpList}; do
     ssh root@${IP} "yum install centos-release-openstack-ocata.noarch -y"
     ssh root@${IP} "yum install openvswitch -y"
 done
 
-
-
-### compute nodes: install ceph for kubelet
-for IP in `echo ${COMPUTE_NODES_PRIVATE_IP} | sed -e 's/,/ /g' ` ; do 
+# install ceph for kubelet
+for IP in ${allIpList}; do
     ssh root@${IP} "yum install centos-release-openstack-ocata.noarch -y"
     ssh root@${IP} "yum install ceph -y"
     ssh root@${IP} "systemctl disable ceph.target ceph-mds.target ceph-mon.target ceph-osd.target"

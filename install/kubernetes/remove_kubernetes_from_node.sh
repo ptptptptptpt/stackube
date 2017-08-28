@@ -8,7 +8,10 @@ programDirBaseName=$(basename $programDir)
 
 set -x
 
-kubeadm reset  || exit 1
+if command -v kubeadm > /dev/null 2>&1; then
+    kubeadm reset  || exit 1
+fi
+
 
 systemctl stop hyperd kubelet
 yum remove -y  kubelet  kubeadm  kubectl  qemu-hyper  hyperstart  hyper-container  || exit 1
