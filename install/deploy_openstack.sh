@@ -18,6 +18,8 @@ source $(readlink -f $1)
 [ "${NETWORK_NODES_PRIVATE_IP}" ]
 #[ "${NETWORK_NODES_NEUTRON_EXT_IF}" ]
 
+[ "${NEUTRON_PUBLIC_SUBNET}" ]
+
 [ "${COMPUTE_NODES_PRIVATE_IP}" ]
 
 [ "${STORAGE_NODES_PRIVATE_IP}" ]
@@ -243,13 +245,22 @@ done
 
 ######### control node ############
 
-# create public network
+# create public network and subnet
 yum install centos-release-openstack-ocata.noarch -y
 yum install python-openstackclient -y
 
 source /etc/stackube/openstack/admin-openrc.sh
 openstack network create --external --provider-physical-network physnet1 --provider-network-type flat public_1
 
+# NEUTRON_PUBLIC_SUBNET='subnet-range;gateway;allocation-pool'
+SUBNET=`echo "${NEUTRON_PUBLIC_SUBNET}" | awk -F\; '{print $1}'`
+GATEWAY=`echo "${NEUTRON_PUBLIC_SUBNET}" | awk -F\; '{print $2}'`
+POOL=`echo "${NEUTRON_PUBLIC_SUBNET}" | awk -F\; '{print $3}'`
+openstack subnet create  public_1-subnet_1  \
+    --subnet-range "${SUBNET}"  --gateway "${GATEWAY}"  --allocation-pool "${POOL}"  --no-dhcp  --network public_1
+
+
+# check
 openstack network list
 openstack subnet list
 openstack endpoint list
