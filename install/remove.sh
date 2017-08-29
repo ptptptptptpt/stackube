@@ -81,8 +81,13 @@ ${STORAGE_NODES_PRIVATE_IP}" | sed -e 's/,/\n/g' | sort | uniq `
 } 2>&1 | tee -a ${logFile}
 
 
+allStats=(${PIPESTATUS[@]})
+if [ "${allStats[0]}" != "0" ]; then
+    exit 1
+fi
 
 
+exit 0
 
 
 

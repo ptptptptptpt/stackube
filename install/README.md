@@ -1,8 +1,8 @@
 
 
-#Prerequisites
+# Prerequisites
 
-###Roles
+### Roles
 
 A stackube deployment is comprised by 4 kinds of nodes: control, network, compute, storage.
 
@@ -46,20 +46,20 @@ A stackube deployment is comprised by 4 kinds of nodes: control, network, comput
 
 There is no conflict between any two roles. That means, all of the roles could be deployed on the same node(s).
 
-###Host OS
+### Host OS
 For now only CentOS 7.x is supported.
 
-###Public IP Pool
+### Public IP Pool
 A number of public IPs are needed.
 
 
-#Deploy
+# Deploy
 
-###1. SSH To The Control Node, And Become Root (e.g. sudo su -)
+### 1. SSH To The Control Node, And Become Root (e.g. sudo su -)
 
 We will do all jobs on the control node.
 
-###2. Enable Password-Less SSH
+### 2. Enable Password-Less SSH
 
 The control node needs to ssh to all nodes when deploying.
 
@@ -82,19 +82,25 @@ ssh-copy-id root@NODE_IP
 
 ```
 
-###3. Clone Stackube Repo
+### 3. Clone Stackube Repo
 ```
 git clone https://git.openstack.org/openstack/stackube
 ```
 
-###4. Edit The Config File
+### 4. Edit The Config File
 ```
 cd stackube/install
 vim config_example
 ```
 
-###5. Do The Deploy
+### 5. Do The Deploy
 ```
 bash deploy.sh config_example
 ```
 
+
+
+# Remove
+```
+bash remove.sh config_example
+```
