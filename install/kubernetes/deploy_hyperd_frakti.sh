@@ -36,23 +36,15 @@ yum install -y libvirt
 
 
 ## install hyperd
-CENTOS7_QEMU_HYPER="qemu-hyper-2.4.1-3.el7.centos.x86_64"
-CENTOS7_HYPERSTART="hyperstart-0.8.1-1.el7.centos.x86_64"
-CENTOS7_HYPER="hyper-container-0.8.1-1.el7.centos.x86_64"
+CENTOS7_QEMU_HYPER="http://hypercontainer-install.s3.amazonaws.com/qemu-hyper-2.4.1-3.el7.centos.x86_64.rpm"
+CENTOS7_HYPERSTART="https://s3-us-west-1.amazonaws.com/hypercontainer-build/1.0-rc2/centos/hyperstart-0.8.1-1.el7.centos.x86_64.rpm"
+CENTOS7_HYPER="https://s3-us-west-1.amazonaws.com/hypercontainer-build/1.0-rc2/centos/hyper-container-0.8.1-1.el7.centos.x86_64.rpm"
 
-set +e
-/bin/bash -c "ping -c 3 -W 2 hypercontainer-install.s3.amazonaws.com >/dev/null 2>&1"
-if [[ $? -ne 0 ]];then
-    S3_URL="http://mirror-hypercontainer-install.s3.amazonaws.com"
-else
-    S3_URL="http://hypercontainer-install.s3.amazonaws.com"
-fi
-
-if rpm -qa | grep ${CENTOS7_HYPER} ; then
+if rpm -qa | grep "hyper-container-0.8.1-1.el7.centos.x86_64" ; then
     true
 else
     set -e
-    yum install -y ${S3_URL}/${CENTOS7_QEMU_HYPER}.rpm ${S3_URL}/${CENTOS7_HYPERSTART}.rpm ${S3_URL}/${CENTOS7_HYPER}.rpm
+    yum install -y ${CENTOS7_QEMU_HYPER} ${CENTOS7_HYPERSTART} ${CENTOS7_HYPER}
     set +e
 fi
 set -e
