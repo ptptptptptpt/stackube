@@ -22,12 +22,14 @@ source $(readlink -f $1) || { echo "'source $(readlink -f $1)' failed!"; exit 1;
 [ "${CONTROL_NODE_PRIVATE_IP}" ] || { echo "Error: CONTROL_NODE_PRIVATE_IP not defined!"; exit 1; }
 
 [ "${NETWORK_NODES_PRIVATE_IP}" ] || { echo "Error: NETWORK_NODES_PRIVATE_IP not defined!"; exit 1; }
-#[ "${NETWORK_NODES_NEUTRON_EXT_IF}" ] || { echo "Error: NETWORK_NODES_NEUTRON_EXT_IF not defined!"; exit 1; }
+[ "${NETWORK_NODES_NEUTRON_EXT_IF}" ] || { echo "Error: NETWORK_NODES_NEUTRON_EXT_IF not defined!"; exit 1; }
 
 [ "${COMPUTE_NODES_PRIVATE_IP}" ] || { echo "Error: COMPUTE_NODES_PRIVATE_IP not defined!"; exit 1; }
 
 [ "${STORAGE_NODES_PRIVATE_IP}" ] || { echo "Error: STORAGE_NODES_PRIVATE_IP not defined!"; exit 1; }
 [ "${STORAGE_NODES_CEPH_OSD_DATA_DIR}" ] || { echo "Error: STORAGE_NODES_CEPH_OSD_DATA_DIR not defined!"; exit 1; }
+
+[ "${NEUTRON_PUBLIC_SUBNET}" ] || { echo "Error: NEUTRON_PUBLIC_SUBNET not defined!"; exit 1; }
 
 
 #####################
