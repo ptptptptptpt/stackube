@@ -89,14 +89,14 @@ sleep 10
 
 # register
 docker exec stackube_openstack_keystone kolla_keystone_bootstrap admin ${KEYSTONE_ADMIN_PWD} admin admin \
-    https://${OPENSTACK_ENDPOINT_IP}:35358/v3 \
-    https://${OPENSTACK_ENDPOINT_IP}:5001/v3 \
-    https://${OPENSTACK_ENDPOINT_IP}:5001/v3 \
+    http://${OPENSTACK_ENDPOINT_IP}:35357/v3 \
+    http://${OPENSTACK_ENDPOINT_IP}:5000/v3 \
+    http://${OPENSTACK_ENDPOINT_IP}:5000/v3 \
     RegionOne
 
 docker exec stackube_openstack_kolla_toolbox /usr/bin/ansible localhost -m os_keystone_role  -a "name=_member_  auth='{{ openstack_keystone_auth }}' verify=False"  \
     -e "{'openstack_keystone_auth': {
-           'auth_url': 'https://${OPENSTACK_ENDPOINT_IP}:35358/v3',
+           'auth_url': 'http://${OPENSTACK_ENDPOINT_IP}:35357/v3',
            'username': 'admin',
            'password': '${KEYSTONE_ADMIN_PWD}',
            'project_name': 'admin',
@@ -111,7 +111,7 @@ export OS_PROJECT_NAME=admin
 export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=${KEYSTONE_ADMIN_PWD}
-export OS_AUTH_URL=https://${OPENSTACK_ENDPOINT_IP}:35358/v3
+export OS_AUTH_URL=http://${OPENSTACK_ENDPOINT_IP}:35357/v3
 export OS_INTERFACE=internal
 export OS_IDENTITY_API_VERSION=3
 export OS_CACERT=/etc/stackube/openstack/certificates/CA/int-ca/ca-chain.pem

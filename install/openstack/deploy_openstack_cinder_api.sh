@@ -47,13 +47,12 @@ for IF in 'admin' 'internal' 'public'; do
             service_type=volume
             description='Openstack Block Storage'
             endpoint_region=RegionOne
-            url='https://${OPENSTACK_ENDPOINT_IP}:8777/v1/%(tenant_id)s'
+            url='http://${OPENSTACK_ENDPOINT_IP}:8776/v1/%(tenant_id)s'
             interface='${IF}'
             region_name=RegionOne
-            auth='{{ openstack_keystone_auth }}'
-            verify=False  " \
+            auth='{{ openstack_keystone_auth }}'" \
         -e "{'openstack_keystone_auth': {
-               'auth_url': 'https://${OPENSTACK_ENDPOINT_IP}:35358/v3',
+               'auth_url': 'http://${OPENSTACK_ENDPOINT_IP}:35357/v3',
                'username': 'admin',
                'password': '${KEYSTONE_ADMIN_PWD}',
                'project_name': 'admin',
@@ -71,13 +70,12 @@ for VER in 'v2' ; do
                 service_type=volume${VER}
                 description='Openstack Block Storage'
                 endpoint_region=RegionOne
-                url='https://${OPENSTACK_ENDPOINT_IP}:8777/${VER}/%(tenant_id)s'
+                url='http://${OPENSTACK_ENDPOINT_IP}:8776/${VER}/%(tenant_id)s'
                 interface='${IF}'
                 region_name=RegionOne
-                auth='{{ openstack_keystone_auth }}'
-                verify=False  " \
+                auth='{{ openstack_keystone_auth }}'" \
             -e "{'openstack_keystone_auth': {
-                   'auth_url': 'https://${OPENSTACK_ENDPOINT_IP}:35358/v3',
+                   'auth_url': 'http://${OPENSTACK_ENDPOINT_IP}:35357/v3',
                    'username': 'admin',
                    'password': '${KEYSTONE_ADMIN_PWD}',
                    'project_name': 'admin',
@@ -94,10 +92,9 @@ docker exec stackube_openstack_kolla_toolbox /usr/bin/ansible localhost  -m koll
         password=${KEYSTONE_CINDER_PWD}
         role=admin
         region_name=RegionOne
-        auth='{{ openstack_keystone_auth }}'
-        verify=False  " \
+        auth='{{ openstack_keystone_auth }}'" \
     -e "{'openstack_keystone_auth': {
-           'auth_url': 'https://${OPENSTACK_ENDPOINT_IP}:35358/v3',
+           'auth_url': 'http://${OPENSTACK_ENDPOINT_IP}:35357/v3',
            'username': 'admin',
            'password': '${KEYSTONE_ADMIN_PWD}',
            'project_name': 'admin',
